@@ -18,6 +18,6 @@ while True:
     #print(f"Humid: {outPost.humidity}%")
     #print(f"Rain: {outPost.rain}")
     file.close()
-    time.sleep(5)
+    time.sleep(10)
 
 

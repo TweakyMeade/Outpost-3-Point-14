@@ -2,3 +2,5 @@ test.csv
 2022-06-30.csv
 .env
 *.csv
+*.DS_Store
+*.py

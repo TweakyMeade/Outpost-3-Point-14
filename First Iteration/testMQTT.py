@@ -1,10 +1,14 @@
 import paho.mqtt.client as mqtt
 import time
 import datetime
+import dotenv
+import os
+dotenv.load_dotenv()
 client=mqtt.Client("test")
-client.connect(host="192.168.1.178", port=1883)
+
+client.connect(host=os.getenv("mqttHost"), port=int(os.getenv("mqttPort")))
 while True:
     strn = f"test {datetime.datetime.now()}"
-    client.publish("Weather",strn)
+    client.publish("Test",strn)
     print("sent")
     time.sleep(10)

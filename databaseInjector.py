@@ -4,14 +4,11 @@ import weatherhat
 import os
 import dotenv
 import paho.mqtt.client as mqtt
-
-def printData(dtI,tpI,hI,rI,wI):
-    print(f'"Datetime:{dtI}, "Temp":{tpI}, "Humidity":{hI}, "Rain":{rI}, "Windspeed":{wI}')
 dotenv.load_dotenv()
 
 outPost = weatherhat.WeatherHAT()
-client=mqtt.Client("test")
-client.connect(host=os.getenv("mqttHost"), port=os.getenv("mqttPort"))
+client=mqtt.Client()
+client.connect(host=os.getenv("mqttHost"), port=int(os.getenv("mqttPort")))
 
 while True:
     outPost.update(interval=5.0)
@@ -25,6 +22,6 @@ while True:
     lightR = outPost.lux
     dewR = outPost.dewpoint
     totalRainR = outPost.rain_total
-    payload = f'{{"Datetime":{datetimeATM}, "Temp":{tempR}, "Humidity":{humidR}, "Rain":{rainR}, "Windspeed":{windSpeedR}, "WindDir":{windDirectionR}}}'
+    payload = f'{{"Datetime":{datetimeATM}, "Temp":{tempR}, "Humidity":{humidR}, "Rain":{rainR}, "Windspeed":{windSpeedR}, "WindDir":{windDirectionR}, "DewPoint":{dewR}, "Light":{lightR}, "Presure":{presureR}}}'
     client.publish("Weather",payload)
     time.sleep(5)

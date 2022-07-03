@@ -3,4 +3,5 @@ test.csv
 .env
 *.csv
 *.DS_Store
-*.py
+
+._databaseInjector.py

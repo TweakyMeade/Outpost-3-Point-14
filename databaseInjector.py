@@ -5,13 +5,17 @@ import os
 import dotenv
 import paho.mqtt.client as mqtt
 dotenv.load_dotenv()
-
+waitingBuffTime = 5
+userInterval = 30
+mqttHost = str(os.getenv("mqttHost"))
+mqttPort = int(os.getenv("mqttPort"))
 outPost = weatherhat.WeatherHAT()
 client=mqtt.Client()
-client.connect(host=os.getenv("mqttHost"), port=int(os.getenv("mqttPort")))
-
+client.connect(host=mqttHost, port=mqttPort)
+print(f"Currently connecting to Database {mqttHost} on Port {mqttPort}. \nstart pumping weather data in {waitingBuffTime} seconds with {userInterval} second Intervals")
+time.sleep(waitingBuffTime)
 while True:
-    outPost.update(interval=5.0)
+    outPost.update(interval=userInterval)
     datetimeATM= datetime.datetime.timestamp(datetime.datetime.now())
     tempR = outPost.temperature
     humidR = outPost.humidity
@@ -24,4 +28,4 @@ while True:
     totalRainR = outPost.rain_total
     payload = f'{{"Datetime":{datetimeATM}, "Temp":{tempR}, "Humidity":{humidR}, "Rain":{rainR}, "Windspeed":{windSpeedR}, "WindDir":{windDirectionR}, "DewPoint":{dewR}, "Light":{lightR}, "Presure":{presureR}}}'
     client.publish("Weather",payload)
-    time.sleep(5)
+    time.sleep(30)

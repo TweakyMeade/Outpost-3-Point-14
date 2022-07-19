@@ -28,13 +28,13 @@ while Flag:
     initresult = client.query('SELECT * FROM Shed ORDER BY DESC LIMIT 1;')
     dictresult = gen2dict(initresult.get_points(measurement="Shed"))
     screen.fill((255,255,255))
-    textRender(dictresult,10,10)
     try:
         rArrow = pygame.transform.rotate(arrow,-dictresult["WindDir"])
         screen.blit(rArrow,(225,300))
     except:
         pass
-    
+    dictresult.pop("WindDir")
+    textRender(dictresult,10,10)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             Flag = False

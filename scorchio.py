@@ -18,7 +18,7 @@ pygame.font.init()
 pygame.display.set_caption('Scorchio!')
 programFont=pygame.font.SysFont("Helvetica",20) 
 client = InfluxDBClient('argon', 8086, database="Weather")
-displaydm = (500,500) #width, height
+displaydm = (1000,500) #width, height
 screen = pygame.display.set_mode(displaydm)
 rawArrow = pygame.image.load("arrow.png")
 arrow = pygame.transform.scale(rawArrow, (50, 70))
@@ -30,11 +30,12 @@ while Flag:
     screen.fill((255,255,255))
     try:
         rArrow = pygame.transform.rotate(arrow,-dictresult["WindDir"])
-        screen.blit(rArrow,(225,300))
+        screen.blit(rArrow,(750,250))
     except:
         pass
     dictresult.pop("WindDir")
-    textRender(dictresult,10,10)
+    dictresult.pop("Datetime")
+    textRender(dictresult,15,30)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             Flag = False
